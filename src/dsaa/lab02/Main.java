@@ -21,11 +21,11 @@ public class Main {
 		while(!halt) {
 			String line=scan.nextLine();
 			// empty line and comment line - read next line
-			if(line.length()==0 || line.charAt(0)=='#')
+			if(line.isEmpty() || line.charAt(0)=='#')
 				continue;
 			// copy line to output (it is easier to find a place of a mistake)
 			System.out.println("!"+line);
-			String word[]=line.split(" ");
+			String[] word =line.split(" ");
 			// go n - start with array of the length n
 			if(word[0].equalsIgnoreCase("go") && word.length==2) {
 				maxNo=Integer.parseInt(word[1]);
