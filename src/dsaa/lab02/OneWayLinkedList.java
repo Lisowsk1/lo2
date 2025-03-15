@@ -71,7 +71,7 @@ public class OneWayLinkedList<E> implements IList<E> {
 
     @Override
     public void add(int index, E element) throws NoSuchElementException {
-        if (index < 0 || index >= size)
+        if (index < 0 || index > size)
             throw new NoSuchElementException("Index out of bounds");
         else {
             Element newNode = new Element(element);//creating a new empty block
@@ -155,29 +155,35 @@ public class OneWayLinkedList<E> implements IList<E> {
     public E remove(int index) throws NoSuchElementException {
         if (index < 0 || index >= size) {
             throw new NoSuchElementException("Index out of bounds");
-        } else {
-            Element current = sentinel.next;
-            for (int i = 0; i < index; i++) {
-                current = current.next;
-            }
-            Element removed = current.next;
-            current.next = removed.next;
-            size--;
-            return removed.object;
         }
+        Element prev = sentinel;
+        Element current = sentinel.next;
+        for (int i = 0; i < index; i++) {
+            prev = current;
+            current = current.next;
+        }
+        if (current == null) {
+            throw new NoSuchElementException("Index out of bounds");
+        }
+        prev.next = current.next;
+        size--;
+        return current.object;
     }
 
     @Override
     public boolean remove(E e) {
+        if (sentinel.next == null)
+            return false;
+
+        Element prev = sentinel;
         Element current = sentinel.next;
         while (current != null) {
             if (current.object.equals(e)) {
-                current.next = current.next.next; //we cant just make current.next = null,
-                // because we would lose the reference to the rest of the list, instead we disconnect this element
-                // by guiding the reference to the next element
+                prev.next = current.next;
                 size--;
                 return true;
             }
+            prev = current;
             current = current.next;
         }
         return false;

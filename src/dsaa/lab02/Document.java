@@ -15,7 +15,6 @@ public class Document {
     public void load(Scanner scan) {
         while (scan.hasNextLine()) {
             String line = scan.nextLine().toLowerCase();
-
             if (line.equals("eod"))
                 break;
 
@@ -38,15 +37,20 @@ public class Document {
 
     @Override
     public String toString() {
+        int newLine = 1;
+
+        if (links == null || links.isEmpty()) return "Document: " + name;
+
         StringBuilder s = new StringBuilder();
         s.append("Document: ").append(name);
-        if(!links.isEmpty())
+        if (!links.isEmpty())
             s.append("\n");
-        int newLine=0;
+
         for (Link link : links) {
             s.append(link.ref);
-            if(newLine<links.size()-1)
+            if (newLine < links.size()) {
                 s.append("\n");
+            }
             newLine++;
         }
         return s.toString();
