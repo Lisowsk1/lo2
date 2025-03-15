@@ -19,30 +19,31 @@ public class OneWayLinkedList<E> implements IList<E> {
     private int size;
 
     private class InnerIterator implements Iterator<E> {
-        Element actElem;
+        Element current;
 
         public InnerIterator() {
-            actElem = head;
+            current = sentinel.next;
         }
 
         @Override
         public boolean hasNext() {
-
-            return actElem != null;
+            return current != null;
         }
 
         @Override
         public E next() {
-            E value = actElem.getValue();
-            actElem.getNext();
-            return null;
+            if (!hasNext())
+                throw new NoSuchElementException();
+
+            E value = current.object;
+            current = current.next;
+            return value;
         }
+
     }
 
     public OneWayLinkedList() {
         this.sentinel = new Element(null);
-        int size = 0;
-
     }
 
     @Override
@@ -95,8 +96,8 @@ public class OneWayLinkedList<E> implements IList<E> {
     @Override
     public boolean contains(E element) {
         Element current = sentinel.next;
-        while(current!=null){
-            if(current.object.equals(element))
+        while (current != null) {
+            if (current.object.equals(element))
                 return true;
             current = current.next;
         }
@@ -105,28 +106,26 @@ public class OneWayLinkedList<E> implements IList<E> {
 
     @Override
     public E get(int index) throws NoSuchElementException {
-        if (index < 0 || index >=size) {
+        if (index < 0 || index >= size) {
             throw new NoSuchElementException("Index out of bounds");
-        }
-        else{
+        } else {
             Element current = sentinel.next;
             for (int i = 0; i < index; i++) {
                 current = current.next;
             }
 
             return current.object;
-            }
+        }
     }
 
     @Override
     public E set(int index, E element) throws NoSuchElementException {
-        if (index < 0 || index >=size) {
+        if (index < 0 || index >= size) {
             throw new NoSuchElementException("Index out of bounds");
-        }
-        else{
-        Element current  = sentinel.next;
+        } else {
+            Element current = sentinel.next;
             for (int i = 0; i < index; i++) {
-                current=current.next;
+                current = current.next;
             }
             E oldValue = current.object;
             current.object = element;
@@ -136,28 +135,27 @@ public class OneWayLinkedList<E> implements IList<E> {
 
     @Override
     public int indexOf(E element) {
-       Element current = sentinel.next;
-       int index = 0;
-       while(current!=null){
-           if(current.object.equals(element))
-               return index;
-           current = current.next;
-           index++;
-       }
+        Element current = sentinel.next;
+        int index = 0;
+        while (current != null) {
+            if (current.object.equals(element))
+                return index;
+            current = current.next;
+            index++;
+        }
         return -1;
     }
 
     @Override
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
 
     @Override
     public E remove(int index) throws NoSuchElementException {
-        if (index < 0 || index >=size) {
+        if (index < 0 || index >= size) {
             throw new NoSuchElementException("Index out of bounds");
-        }
-        else {
+        } else {
             Element current = sentinel.next;
             for (int i = 0; i < index; i++) {
                 current = current.next;
@@ -172,9 +170,8 @@ public class OneWayLinkedList<E> implements IList<E> {
     @Override
     public boolean remove(E e) {
         Element current = sentinel.next;
-        while(current!=null){
-            if(current.object.equals(e))
-            {
+        while (current != null) {
+            if (current.object.equals(e)) {
                 current.next = current.next.next; //we cant just make current.next = null,
                 // because we would lose the reference to the rest of the list, instead we disconnect this element
                 // by guiding the reference to the next element
@@ -183,7 +180,7 @@ public class OneWayLinkedList<E> implements IList<E> {
             }
             current = current.next;
         }
-        return  false;
+        return false;
     }
 
     @Override
