@@ -58,7 +58,7 @@ public class OneWayLinkedList<E> implements IList<E> {
 
     @Override
     public boolean add(E e) {
-        Element newNode = new Element(e);//creating a new empty block
+        Element newNode = new Element(e);//creating a new empty node
         Element current = sentinel;
 
         while (current.next != null)
@@ -74,14 +74,14 @@ public class OneWayLinkedList<E> implements IList<E> {
         if (index < 0 || index > size)
             throw new NoSuchElementException("Index out of bounds");
         else {
-            Element newNode = new Element(element);//creating a new empty block
+            Element newNode = new Element(element);//creating a new empty node
             Element current = sentinel;
 
             for (int i = 0; i < index; i++) {
                 current = current.next;//pointing current at the index-1
             }
-            newNode.next = current.next;
-            current.next = newNode;//placing the new element at the index
+            newNode.next = current.next;  //maintaining the continuity by giving newNode the reference to the current object
+            current.next = newNode;
             size++;
         }
 

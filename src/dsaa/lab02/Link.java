@@ -9,13 +9,11 @@ public class Link{
 
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof Link)) {
+		if (!(other instanceof Link that)) {
 			return false;
 		}
 
-		Link that = (Link) other;
-
-		// Custom equality check here.
+        // Custom equality check here.
 		return this.ref.equals(that.ref);
 	}
 
